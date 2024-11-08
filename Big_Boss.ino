@@ -1,7 +1,7 @@
 #include <Key.h>
 #include <Keypad.h>
 
-// Configuración del teclado 4x4
+
 const byte ROWS = 4;
 const byte COLS = 4;
 char keys[ROWS][COLS] = {
@@ -10,19 +10,18 @@ char keys[ROWS][COLS] = {
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'}
 };
-byte rowPins[ROWS] = {9, 8, 7, 6}; // Pines de las filas
-byte colPins[COLS] = {5, 4, 3, 2}; // Pines de las columnas
+byte rowPins[ROWS] = {9, 8, 7, 6}; 
+byte colPins[COLS] = {5, 4, 3, 2};
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27,16,2);
-// Variables que serán ingresadas
 String variable1 = "";
 String variable2 = "";
 
-// Estados del menú
+
 enum MenuState {
   MENU_MAIN,
   INSERT_VAR1,
@@ -86,7 +85,6 @@ void handleMainMenu(char key) {
       currentState = SEND_DATA;
       break;
     default:
-      // Si se presiona una tecla inválida
       lcd.setCursor(0, 1);
       lcd.print("Opcion invalida");
       delay(1000);
@@ -97,7 +95,6 @@ void handleMainMenu(char key) {
 
 void handleInsertVar1(char key) {
   if (key == '#') {
-    // Completar la entrada y volver al menú principal
     showMainMenu();
   } else if (key != '*') {
     variable1 += key;
@@ -108,7 +105,6 @@ void handleInsertVar1(char key) {
 
 void handleInsertVar2(char key) {
   if (key == '#') {
-    // Completar la entrada y volver al menú principal
     showMainMenu();
   } else if (key != '*') {
     variable2 += key;
@@ -123,5 +119,5 @@ void sendData() {
   Serial.println(variable1);
   Serial.println(variable2);
   delay(2000);
-  showMainMenu();  // Volver al menú principal
+  showMainMenu();  
 }
